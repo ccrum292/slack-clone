@@ -41,26 +41,43 @@ router.post(
     next();
   },
   passport.authenticate('local'),
-  (req, res) => {
-    console.log('LOGGED IN', req.user);
-    res.send({
-      user: req.user,
-    });
+  async (req, res) => {
+    try {
+        res.send({
+          user: req.user,
+        });
+
+    } catch (err){
+      console.log(err);
+      res.json(err);
+    }
   }
 );
 
-router.get('/me', (req, res) => {
+router.get('/me', async (req, res) => {
   if (req.user) {
-    res.json({ user: req.user });
+    const userData = await User.findById(req.user._id);
+    res.json({ user: userData });
   } else {
     res.json({ user: null });
   }
 });
 
-router.post('/logout', (req, res) => {
+router.post('/logout', async (req, res) => {
   if (req.user) {
-    req.logout();
-    res.status(200).json({ msg: 'LOGGED OUT' });
+    try {
+      const userData = User.findByIdAndUpdate(
+        req.user._id,
+        {
+          online: false
+        }  
+      )
+      req.logout();
+      res.status(200).json({ msg: 'LOGGED OUT' });
+
+    }catch (err) {
+      console.log(err);
+    }
   } else {
     res.status(404).json({ msg: 'NO USER TO LOGOUT' });
   }

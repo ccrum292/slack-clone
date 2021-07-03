@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import { format } from "date-fns";
 import UserAndAuthContext from "../../context/AuthContext";
-
+import Chat from "../../components/Chat/Chat";
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
@@ -65,9 +65,10 @@ export default function Dashboard() {
 
   return (
     <Container component="main" maxWidth="lg" className={classes.container}>
-      {/* <div className={classes.appBarSpacer}></div>
+      <div className={classes.appBarSpacer}></div>
       {loading ? <LinearProgress color="secondary" /> : null}
-      {currentClass ?
+      <Chat />
+      {/* {currentClass ?
         <Grid container spacing={3}>
           <Grid item container direction="row" xs={12} spacing={3}>
             <Grid item xs={12} md={6}>

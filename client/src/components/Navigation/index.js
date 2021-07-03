@@ -12,7 +12,7 @@ import UserClass from '../../components/UserClass';
 import CreateNewFolderIcon from '@material-ui/icons/CreateNewFolder';
 import clsx from 'clsx';
 import { useStoreContext } from '../../store/store';
-import { LOGOUT } from '../../store/actions';
+import { LOGOUT, SET_SOCKET, UNSET_USER } from '../../store/actions';
 import API from "../../lib/API";
 
 import { Link, Redirect } from 'react-router-dom'
@@ -89,14 +89,19 @@ const useStyles = makeStyles((theme) => ({
 export default function Navigation() {
   const classes = useStyles();
   const [state, dispatch] = useStoreContext();
-  const { user } = state;
+  const { user, socket } = state;
   const [navOpen, setNavOpen] = useState(false);
   const [redirect, setRedirect] = useState(false);
   const handleLogout = async e => {
     e.preventDefault();
+    console.log(socket);
+    dispatch({ type: LOGOUT })
+    // socket.disconnect();
+    console.log(socket);
+
     try {
       const logoutData = await API.Users.logout();
-      dispatch({ type: LOGOUT })
+      dispatch({ type: UNSET_USER })
       setRedirect(true);
     } catch (err) {
       console.log(err);
@@ -117,7 +122,7 @@ export default function Navigation() {
           </IconButton>
           <Typography className={classes.title} variant="h6" >
             <Link className={classes.link} to="/">
-              Algo_Champ
+              Chat_App
             </Link>
           </Typography>
           { !user ? 
@@ -129,8 +134,10 @@ export default function Navigation() {
                 Register
             </Button>
           </>
-          : null
-            // <UserClass ></UserClass>
+          :
+          <Typography  variant="h6" >
+            {user.email}
+          </Typography>
           }
         </Toolbar>
       </AppBar>
@@ -157,7 +164,7 @@ export default function Navigation() {
                 </ListItemIcon>
                 <ListItemText primary="Dashboard" />
               </ListItem>
-              <ListItem button to="/leaderboard" component={Link}>
+              {/* <ListItem button to="/leaderboard" component={Link}>
                 <ListItemIcon>
                   <BarChartIcon />
                 </ListItemIcon>
@@ -168,7 +175,7 @@ export default function Navigation() {
                   <DoneIcon />
                 </ListItemIcon>
                 <ListItemText primary="Completed Algos" />
-              </ListItem>
+              </ListItem> */}
               {/* {!currentClass ? null : currentClass.ClassUser.admin ? 
               <>
               <ListItem button to="/members" component={Link}>

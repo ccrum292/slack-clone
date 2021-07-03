@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer } from 'react';
-import { LOGIN, LOGOUT, SET_USER, UNSET_USER, LOADING } from './actions';
+import { LOGIN, LOGOUT, SET_USER, UNSET_USER, LOADING, SET_SOCKET } from './actions';
 
 const StoreContext = createContext();
 const { Provider } = StoreContext;
@@ -32,6 +32,12 @@ const reducer = (state, action) => {
         ...state,
         loading: action.loading
       };
+    
+    case SET_SOCKET:
+      return {
+        ...state,
+        socket: action.socket
+      }
     default:
       return state;
   }
@@ -41,6 +47,7 @@ const StoreProvider = ({ value = [], ...props }) => {
   const [state, dispatch] = useReducer(reducer, {
     user: null,
     loading: false,
+    socket: null
   });
 
   return <Provider value={[state, dispatch]} {...props} />;

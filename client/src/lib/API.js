@@ -17,6 +17,23 @@ const API = {
     logout: function () {
       return axios.post('/api/users/logout', {});
     }
+  },
+  Chats: {
+    getAll: function () {
+      return axios.get('/api/chats/all');
+    },
+    // bodyObj = {
+    //   socketRoomName: "",
+    //   users: [
+    //     {
+    //       userId: "",
+    //       name: ""
+    //     }
+    //   ]
+    // }
+    createNewChat: function (bodyObj) {
+      return axios.post('/api/chats/', bodyObj);
+    }
   }
 };
 

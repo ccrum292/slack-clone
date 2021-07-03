@@ -11,7 +11,7 @@ const strategy = new LocalStrategy(
       if (err) {
         return done(err);
       }
-
+      console.log("local strat", user);
       if (!user) {
         return done(null, false, { message: 'Incorrect Email' });
       }

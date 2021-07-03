@@ -2,7 +2,7 @@ import React, { useEffect,} from 'react';
 import './App.css';
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-
+import { io } from 'socket.io-client';
 import API from "../../lib/API";
 
 import Navigation from "../../components/Navigation";
@@ -16,7 +16,7 @@ import Dashboard from "../../pages/Dashboard";
 // import AdminAlgo from "../../pages/AdminAlgo";
 // import CreateClass from "../../pages/CreateClass";
 // import Completed from "../../pages/Completed";
-import { LOADING, SET_USER, UNSET_USER } from '../../store/actions';
+import { LOADING, SET_USER, UNSET_USER, SET_SOCKET } from '../../store/actions';
 import { useStoreContext } from '../../store/store';
 
 const useStyles = makeStyles((theme) => ({
@@ -29,7 +29,6 @@ function App(props) {
   const classes = useStyles();
   const [state, dispatch] = useStoreContext();
   const { user } = state;
-
   const history = useHistory();
 
   const setUserOnPageLoad = async () => {
@@ -53,11 +52,12 @@ function App(props) {
   useEffect(() => {
     try {
       dispatch({ type: LOADING });
+      console.log("useEffect App.js")
       setUserOnPageLoad();
     } catch (err) {
       console.log(err);
     }
-  }, [dispatch, history]);
+  }, []);
 
   return (
       <div className={classes.root}>

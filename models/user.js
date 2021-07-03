@@ -19,7 +19,32 @@ const userSchema = new Schema({
     type: String,
     unique: true,
     required: true
-  }
+  },
+  otherUsers: [
+    {
+      userId: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+      },
+      match: {
+        type: Boolean,
+        required: true
+      }, 
+    }
+  ],
+  chatRooms: [
+    {
+      socketRoomNameId: {
+        type: String,
+        ref: "Chat",
+        required: true
+      },
+      socketRoomName: {
+        type: String
+      }
+    }
+  ]
 });
 
 // Define schema methods
